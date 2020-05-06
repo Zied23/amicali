@@ -11,7 +11,7 @@ public interface FeedBackService {
 	
 	void create(FeedBack feedBack);
 
-    void update(FeedBack feedBack);
+    void update(FeedBack feedBack,Long id);
 
     void delete(FeedBack feedBack);
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pfa.amicali.Entity.FeedBack;
@@ -24,7 +25,7 @@ public class FeedbackController {
 	
 	
 	
-	@GetMapping(value = "/feedBacks")
+	@GetMapping(value = "/show")
 	public List<FeedBack>getFeedBacks(){
 		List<FeedBack> feedBacks =feedBackService.read();
 		return feedBacks;
@@ -33,16 +34,31 @@ public class FeedbackController {
 	
 	
 	
-	@GetMapping(value = "/feedBacks/{id}")
+	@GetMapping(value = "/show/{id}")
 	 public Optional<FeedBack>getFeedBacks(@PathVariable Long id){
 		Optional<FeedBack> feedBacks = feedBackService.read(id);
 	  return feedBacks;
 	}
 	
 	
-	@PostMapping(path= "/add/feedBack", consumes = "application/json", produces = "application/json")
+	@PostMapping(path= "/new/feedBack", consumes = "application/json", produces = "application/json")
     public void creatFeedBack(@RequestBody FeedBack feedBack){
 		feedBackService.create(feedBack);
+	
+	}
+	
+	
+	
+	@RequestMapping(path= "/update/feedBack/{id}", consumes = "application/json", produces = "application/json" , method = RequestMethod.PUT)
+    public void updateFeedBack(@RequestBody FeedBack feedBack,@PathVariable Long id){
+      
+	feedBackService.update(feedBack, id);
+    }
+	
+	@RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
+	 public void deleteFeedBack(@PathVariable("id") long id) {
+		//Product product = productService.getOne(id);
+		feedBackService.delete(id);
 	
 	}
 	

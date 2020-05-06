@@ -23,7 +23,9 @@ public class ProviderServiceImpl implements ProviderService {
 	}
 
 	@Override
-	public void update(Provider provider) {
+	public void update(Provider provider , Long id) {
+		
+		provider.setId(id);
 		providerRepository.save(provider);
 		
 	}

@@ -25,7 +25,8 @@ public class FeedBackServiceImpl implements FeedBackService {
 	}
 
 	@Override
-	public void update(FeedBack feedBack) {
+	public void update(FeedBack feedBack ,Long id) {
+		feedBack.setId(id);
 		feedBackRepository.save(feedBack);
 		
 	}

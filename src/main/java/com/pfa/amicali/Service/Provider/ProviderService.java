@@ -13,7 +13,7 @@ public interface ProviderService {
 	
 	void create(Provider provider);
 
-    void update(Provider provider);
+    void update(Provider provider , Long id);
 
     void delete(Provider provider);
 

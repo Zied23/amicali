@@ -1,5 +1,6 @@
 package com.pfa.amicali.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,23 +20,32 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pfa.amicali.Entity.Product;
 import com.pfa.amicali.Service.Product.PageProduct;
 import com.pfa.amicali.Service.Product.ProductServiceImpl;
-
+@CrossOrigin(origins = "http://localhost:8089")
 @RestController
 @RequestMapping(path = "/Product")
 public class ProductController {
 	@Autowired 
 	private ProductServiceImpl productService;
 	
+//	
+//	@GetMapping(value = "/products")
+//	public List<Product>getProducts(){
+//		
+//		List<Product> products= productService.read();
+//		return products;
+//	}
+//	 
 	
-	@GetMapping(value = "/products")
-	public List<Product>getProducts(){
-		
-		List<Product> products= productService.read();
-		return products;
-	}
-	 
+	@RequestMapping(value = "/show", method = RequestMethod.GET)
+    public List<Product> getProducts() {
+       
+        List<Product> products = new ArrayList<Product>();
+        return products= productService.read();
+       
+    }
 	
-	@GetMapping(value = "/products/{id}")
+	
+	@GetMapping(value = "/show/{id}")
 	 public Optional<Product>getProducts(@PathVariable Long id){
 		Optional<Product> products = productService.read(id);
 	  return products;
@@ -43,29 +54,25 @@ public class ProductController {
 	
 	
 	
-	@PostMapping(path= "/add/pruduct", consumes = "application/json", produces = "application/json")
+	@PostMapping(path= "/new/pruduct", consumes = "application/json", produces = "application/json")
     public void creatProduct(@RequestBody Product product){
        productService.create(product);
 	
 	}
+	//provider/{id_provider}
+	@RequestMapping(path= "/update/pruduct/{id}", consumes = "application/json", produces = "application/json" , method = RequestMethod.PUT)
+    public void updateProduct(@RequestBody Product product,@PathVariable Long id)/*,@PathVariable Long id_provider)*/{
+       productService.update(product, id);
 	
-	
-	@RequestMapping(value = "/product/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateProduct(@PathVariable("id") long id, @RequestBody Product product) {
-        
- 
-        Product currentProduct = productService.getOne(id);
-       
-        currentProduct.setProduct_name(product.getProduct_name());
-        currentProduct.setProduct_price(product.getProduct_price());
-        currentProduct.setDiscription_price(product.getDiscription_price());
- 
-        productService.update(currentProduct);
-        return new ResponseEntity<>(currentProduct, HttpStatus.OK);
     }
-
+    //,id_provider
 	
+	@RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
+	 public void deleteProduct(@PathVariable("id") long id) {
+		//Product product = productService.getOne(id);
+		 productService.delete(id);
 	
+	}
 	
 	
 	

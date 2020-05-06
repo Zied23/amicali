@@ -8,25 +8,45 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.pfa.amicali.Entity.Category;
 import com.pfa.amicali.Entity.Product;
+import com.pfa.amicali.Entity.Provider;
+import com.pfa.amicali.Repository.CategoryRepository;
 import com.pfa.amicali.Repository.ProductRepository;
+import com.pfa.amicali.Repository.ProviderRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 	
-	
+	@Autowired
+	private CategoryRepository categoryRepository ;
 	
 	@Autowired
 	private ProductRepository  productRepository ;
 	
+	@Autowired
+	private ProviderRepository  providerRepository ;
+	
+
+
 	@Override
 	public void create(Product product) {
+		Category category = categoryRepository.findByCategoryName(product.getCategory().getCategoryName());
+    product.setCategory(category);  
 		productRepository.save(product);
 		
 	}
-
+	//,Long id_provider
 	@Override
-	public void update(Product product) {
+	public void update(Product product,Long id) {
+		
+		product.setId(id);
+		
+		
+		//Provider provider =providerRepository.getOne(id_provider);
+		
+		//product.setProviders(provider);
+		
 		productRepository.save(product);	
 	}
 
@@ -51,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> read() {
 		
-		return productRepository.findAll();
+		return  (List<Product>)productRepository.findAll();
 	}
 
 	@Override

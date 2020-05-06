@@ -7,9 +7,10 @@ import com.pfa.amicali.Entity.Product;
 
 
 public interface ProductService {
+	
 	void create(Product product);
-
-    void update(Product product);
+	//,Long id_provider
+    void update(Product product,Long id );
 
     void delete(Product product);
 
